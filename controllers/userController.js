@@ -71,4 +71,14 @@ module.exports = {
             )
             .catch((err) => res.status(500).json(err));
     },
+    getFriends(req, res) { // Add this function
+        User.findOne({ _id: req.params.userId })
+            .populate('friends')
+            .then((user) =>
+                !user
+                    ? res.status(404).json({ message: 'No user with that ID' })
+                    : res.json(user.friends)
+            )
+            .catch((err) => res.status(500).json(err));
+    },
 };
